@@ -1,17 +1,18 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import Post from '../models/Post';
+import ReleaseIteration from '../models/ReleaseIteration';
+import Sprint from  '../models/Sprint';
 
-export class PostRouter {
-    
-    router: Router;
+export class ReleaseIterationRouter {
+
+        router: Router;
 
     constructor(){
         this.router = Router();
         this.routes();
     }
 
-    public GetPosts(req: Request, res: Response): void{
-        Post.find({})
+      public GetReleaseIterations(req: Request, res: Response): void{
+        ReleaseIteration.find({})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -28,10 +29,10 @@ export class PostRouter {
         })
     }
 
-    public GetPost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public GetReleaseIteration(req: Request, res: Response): void{
+        const name: string = req.params.name;
 
-        Post.findOne({slug})
+        ReleaseIteration.findOne({name})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -48,14 +49,14 @@ export class PostRouter {
         })
     }
 
-    public CreatePost(req: Request, res: Response): void{
-        const slug: string = req.body.slug;
-        const title: string = req.body.title;
-        const featuredImage = req.body.featuredImage;
-        const content = req.body.content;
+    public CreateReleaseIteration(req: Request, res: Response): void{
+        const name: string = req.body.name;
+        const sprints: Sprint[] = req.body.sprints;
+        const startdate = req.body.startdate;
+        const enddate = req.body.enddate;
 
-        const post = new Post({
-            title,slug,content,featuredImage
+        const post = new ReleaseIteration({
+            name,sprints,startdate, enddate
         });
 
         post.save()
@@ -75,10 +76,10 @@ export class PostRouter {
         })
     }
 
-    public UpdatePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public UpdateReleaseIteration(req: Request, res: Response): void{
+        const name: string = req.params.name;
         
-        Post.findOneAndUpdate({slug}, req.body)
+        ReleaseIteration.findOneAndUpdate({name}, req.body)
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -95,10 +96,10 @@ export class PostRouter {
         })
     }
 
-    public DeletePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public DeleteReleaseIteration(req: Request, res: Response): void{
+        const name: string = req.params.name;
         
-        Post.findOneAndRemove({slug})
+        ReleaseIteration.findOneAndRemove({name})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -114,18 +115,18 @@ export class PostRouter {
             });
         })
     }
-
     routes(){
-        this.router.get('/', this.GetPosts);
-        this.router.get('/:slug', this.GetPost);
-        this.router.post('/', this.CreatePost);
-        this.router.put('/:slug', this.UpdatePost);
-        this.router.delete('/:slug', this.DeletePost);
+        this.router.get('/', this.GetReleaseIterations);
+        this.router.get('/:slug', this.GetReleaseIteration);
+        this.router.post('/', this.CreateReleaseIteration);
+        this.router.put('/:slug', this.UpdateReleaseIteration);
+        this.router.delete('/:slug', this.DeleteReleaseIteration);
             
     }
+
 }
 
 //export
-const postRoutes = new PostRouter();
-postRoutes.routes();
-export default postRoutes.router;
+const releaseIterationRoutes = new ReleaseIterationRouter();
+releaseIterationRoutes.routes();
+export default releaseIterationRoutes.router;

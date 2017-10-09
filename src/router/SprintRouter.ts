@@ -1,17 +1,19 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import Post from '../models/Post';
+import Sprint from '../models/Sprint';
+import Team from '../models/Team';
 
-export class PostRouter {
-    
-    router: Router;
+
+export class SprintRouter {
+
+        router: Router;
 
     constructor(){
         this.router = Router();
         this.routes();
     }
 
-    public GetPosts(req: Request, res: Response): void{
-        Post.find({})
+      public GetSprints(req: Request, res: Response): void{
+        Sprint.find({})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -28,10 +30,10 @@ export class PostRouter {
         })
     }
 
-    public GetPost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public GetSprint(req: Request, res: Response): void{
+        const startdate: Date = req.params.startdate;
 
-        Post.findOne({slug})
+        Sprint.findOne({startdate})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -48,14 +50,15 @@ export class PostRouter {
         })
     }
 
-    public CreatePost(req: Request, res: Response): void{
-        const slug: string = req.body.slug;
-        const title: string = req.body.title;
-        const featuredImage = req.body.featuredImage;
-        const content = req.body.content;
+    public CreateSprint(req: Request, res: Response): void{
+        const number: Number = req.body.number;
+        const teams: Array<Team> = req.body.sprints;
+        const startdate: Date = req.body.startdate;
+        const enddate: Date = req.body.enddate;
+        const userstories: UserStory[] = req.body.userstories
 
-        const post = new Post({
-            title,slug,content,featuredImage
+        const post = new Sprint({
+            number,teams,startdate,enddate,userstories
         });
 
         post.save()
@@ -75,10 +78,10 @@ export class PostRouter {
         })
     }
 
-    public UpdatePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public UpdateSprint(req: Request, res: Response): void{
+        const startdate: string = req.params.startdate;
         
-        Post.findOneAndUpdate({slug}, req.body)
+        Sprint.findOneAndUpdate({startdate}, req.body)
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -95,10 +98,10 @@ export class PostRouter {
         })
     }
 
-    public DeletePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public DeleteSprint(req: Request, res: Response): void{
+        const startdate: string = req.params.startdate;
         
-        Post.findOneAndRemove({slug})
+        Sprint.findOneAndRemove({startdate})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -114,18 +117,18 @@ export class PostRouter {
             });
         })
     }
-
     routes(){
-        this.router.get('/', this.GetPosts);
-        this.router.get('/:slug', this.GetPost);
-        this.router.post('/', this.CreatePost);
-        this.router.put('/:slug', this.UpdatePost);
-        this.router.delete('/:slug', this.DeletePost);
+        this.router.get('/', this.GetSprints);
+        this.router.get('/:slug', this.GetSprint);
+        this.router.post('/', this.CreateSprint);
+        this.router.put('/:slug', this.UpdateSprint);
+        this.router.delete('/:slug', this.DeleteSprint);
             
     }
+
 }
 
 //export
-const postRoutes = new PostRouter();
-postRoutes.routes();
-export default postRoutes.router;
+const sprintRoutes = new SprintRouter();
+sprintRoutes.routes();
+export default sprintRoutes.router;

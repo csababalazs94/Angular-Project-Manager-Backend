@@ -59,61 +59,61 @@ export class UserRouter {
             name,username,email,password,posts
         });
 
-                user.save()
-                .then((data) => {
-                    const status = res.statusCode;
-                    res.status(200).json({
-                        status,
-                        data
-                    });
-                })
-                .catch((err) => {
-                    const status = res.statusCode;
-                    res.json({
-                        status,
-                        err
-                    });
-                })
+        user.save()
+        .then((data) => {
+            const status = res.statusCode;
+            res.status(200).json({
+                status,
+                data
+            });
+        })
+        .catch((err) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                err
+            });
+        })
     }
 
     public UpdateUser(req: Request, res: Response): void{
         const username: string = req.params.username;
         
-                User.findOneAndUpdate({username}, req.body)
-                .then((data) => {
-                    const status = res.statusCode;
-                    res.status(200).json({
-                        status,
-                        data
-                    });
-                })
-                .catch((err) => {
-                    const status = res.statusCode;
-                    res.json({
-                        status,
-                        err
-                    });
-                })
+        User.findOneAndUpdate({username}, req.body)
+        .then((data) => {
+            const status = res.statusCode;
+            res.status(200).json({
+                status,
+                data
+            });
+        })
+        .catch((err) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                err
+            });
+        })
     }
 
     public DeleteUser(req: Request, res: Response): void{
         const username: string = req.params.username;
 
-                User.findOneAndRemove({username})
-                .then((data) => {
-                    const status = res.statusCode;
-                    res.status(200).json({
-                        status,
-                        data
-                    });
-                })
-                .catch((err) => {
-                    const status = res.statusCode;
-                    res.json({
-                        status,
-                        err
-                    });
-                })
+        User.findOneAndRemove({username})
+        .then((data) => {
+            const status = res.statusCode;
+            res.status(200).json({
+                status,
+                data
+            });
+        })
+        .catch((err) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                err
+            });
+        })
     }
 
     routes(){

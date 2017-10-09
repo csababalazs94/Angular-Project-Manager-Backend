@@ -1,17 +1,19 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import Post from '../models/Post';
+import UserStory from '../models/UserStory';
+import Status from '../models/UserStory';
 
-export class PostRouter {
-    
-    router: Router;
+
+export class UserStoryRouter {
+
+        router: Router;
 
     constructor(){
         this.router = Router();
         this.routes();
     }
 
-    public GetPosts(req: Request, res: Response): void{
-        Post.find({})
+      public GetUserStorys(req: Request, res: Response): void{
+        UserStory.find({})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -28,10 +30,10 @@ export class PostRouter {
         })
     }
 
-    public GetPost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public GetUserStory(req: Request, res: Response): void{
+        const id: Number = req.params.id;
 
-        Post.findOne({slug})
+        UserStory.findOne({id})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -48,14 +50,15 @@ export class PostRouter {
         })
     }
 
-    public CreatePost(req: Request, res: Response): void{
-        const slug: string = req.body.slug;
-        const title: string = req.body.title;
-        const featuredImage = req.body.featuredImage;
-        const content = req.body.content;
+    public CreateUserStory(req: Request, res: Response): void{
+        const owner: User = req.body.owner;
+        const point: Number  = req.body.point;
+        const status: Status = req.body.status;
+        const insprint: Number = req.body.insprint;
+        const currentvelocity: Number = req.body.currentvelocity
 
-        const post = new Post({
-            title,slug,content,featuredImage
+        const post = new UserStory({
+           owner,point,status,insprint,currentvelocity
         });
 
         post.save()
@@ -75,10 +78,10 @@ export class PostRouter {
         })
     }
 
-    public UpdatePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public UpdateUserStory(req: Request, res: Response): void{
+        const id:Number = req.params.id;
         
-        Post.findOneAndUpdate({slug}, req.body)
+        UserStory.findOneAndUpdate({id}, req.body)
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -95,10 +98,10 @@ export class PostRouter {
         })
     }
 
-    public DeletePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public DeleteUserStory(req: Request, res: Response): void{
+        const id: Number = req.params.id;
         
-        Post.findOneAndRemove({slug})
+        UserStory.findOneAndRemove({id})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -114,18 +117,17 @@ export class PostRouter {
             });
         })
     }
-
     routes(){
-        this.router.get('/', this.GetPosts);
-        this.router.get('/:slug', this.GetPost);
-        this.router.post('/', this.CreatePost);
-        this.router.put('/:slug', this.UpdatePost);
-        this.router.delete('/:slug', this.DeletePost);
+        this.router.get('/', this.GetUserStorys);
+        this.router.get('/', this.GetUserStory);
+        this.router.post('/', this.CreateUserStory);
+        this.router.put('/', this.UpdateUserStory);
+        this.router.delete('/', this.DeleteUserStory);
             
     }
 }
 
 //export
-const postRoutes = new PostRouter();
-postRoutes.routes();
-export default postRoutes.router;
+const userStoryRoutes = new UserStoryRouter();
+userStoryRoutes.routes();
+export default userStoryRoutes.router;

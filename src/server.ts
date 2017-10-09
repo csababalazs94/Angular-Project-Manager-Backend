@@ -9,7 +9,10 @@ import * as cors from 'cors';
 // import routers
 import PostRouter from './router/PostRouter';
 import UserRouter from './router/UserRouter';
-
+import ReleaseIterationRouter from './router/ReleaseIterationRouter';
+import SprintRouter from './router/SprintRouter';
+import TeamRouter from './router/TeamRouter';
+import UserStoryRouter from './router/UserStoryRouter';
 
 // Server class
 class Server {
@@ -43,6 +46,10 @@ class Server {
         this.app.use('/', router);
         this.app.use('/api/v1/posts', PostRouter);
         this.app.use('/api/v1/users', UserRouter);
+        this.app.use('/api/v1/releases', ReleaseIterationRouter);
+        this.app.use('/api/v1/sprints', SprintRouter);
+        this.app.use('/api/v1/teams', TeamRouter);
+        this.app.use('/api/v1/userstories', UserStoryRouter);
 
     }
 }

@@ -26,5 +26,4 @@ let PostScema: Schema = new Schema({
     }
 });
 
-
 export default model('Post', PostScema);

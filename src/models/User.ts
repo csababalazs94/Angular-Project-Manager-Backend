@@ -1,5 +1,7 @@
 import {Schema, model } from 'mongoose';
 
+enum Roles{Developer, Tester, PO, SM}
+
 let UserSchema: Schema = new Schema({
     createdAt: Date,
     updatedAt: Date,
@@ -33,10 +35,9 @@ let UserSchema: Schema = new Schema({
     roles: {
         type: Array,
         items: {
-            type: String
+            type: Roles
         }
     }
 });
-
 
 export default model('User', UserSchema);

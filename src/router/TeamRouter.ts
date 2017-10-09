@@ -1,17 +1,19 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import Post from '../models/Post';
+import Team from '../models/Team';
+import User from '../models/User';
 
-export class PostRouter {
-    
-    router: Router;
+
+export class TeamRouter {
+
+        router: Router;
 
     constructor(){
         this.router = Router();
         this.routes();
     }
 
-    public GetPosts(req: Request, res: Response): void{
-        Post.find({})
+      public GetTeams(req: Request, res: Response): void{
+        Team.find({})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -28,10 +30,10 @@ export class PostRouter {
         })
     }
 
-    public GetPost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public GetTeam(req: Request, res: Response): void{
+        const name: String = req.params.name;
 
-        Post.findOne({slug})
+        Team.findOne({name})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -48,14 +50,15 @@ export class PostRouter {
         })
     }
 
-    public CreatePost(req: Request, res: Response): void{
-        const slug: string = req.body.slug;
-        const title: string = req.body.title;
-        const featuredImage = req.body.featuredImage;
-        const content = req.body.content;
+    public CreateTeam(req: Request, res: Response): void{
+        const name: String = req.body.name;
+        const members: Array<User> = req.body.members;
+        const PO: User = req.body.PO;
+        const SM: User = req.body.SM;
+        const currentvelocity: Number = req.body.currentvelocity
 
-        const post = new Post({
-            title,slug,content,featuredImage
+        const post = new Team({
+            name,members, PO, SM,currentvelocity
         });
 
         post.save()
@@ -75,10 +78,10 @@ export class PostRouter {
         })
     }
 
-    public UpdatePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public UpdateTeam(req: Request, res: Response): void{
+        const name: String = req.params.name;
         
-        Post.findOneAndUpdate({slug}, req.body)
+        Team.findOneAndUpdate({name}, req.body)
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -95,10 +98,10 @@ export class PostRouter {
         })
     }
 
-    public DeletePost(req: Request, res: Response): void{
-        const slug: string = req.params.slug;
+    public DeleteTeam(req: Request, res: Response): void{
+        const name: String = req.params.name;
         
-        Post.findOneAndRemove({slug})
+        Team.findOneAndRemove({name})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -114,18 +117,17 @@ export class PostRouter {
             });
         })
     }
-
     routes(){
-        this.router.get('/', this.GetPosts);
-        this.router.get('/:slug', this.GetPost);
-        this.router.post('/', this.CreatePost);
-        this.router.put('/:slug', this.UpdatePost);
-        this.router.delete('/:slug', this.DeletePost);
+        this.router.get('/', this.GetTeams);
+        this.router.get('/', this.GetTeam);
+        this.router.post('/', this.CreateTeam);
+        this.router.put('/', this.UpdateTeam);
+        this.router.delete('/', this.DeleteTeam);
             
     }
 }
 
 //export
-const postRoutes = new PostRouter();
-postRoutes.routes();
-export default postRoutes.router;
+const teamRoutes = new TeamRouter();
+teamRoutes.routes();
+export default teamRoutes.router;
