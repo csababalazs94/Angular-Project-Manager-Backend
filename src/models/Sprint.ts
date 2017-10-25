@@ -1,4 +1,6 @@
 import {Schema, model } from 'mongoose';
+import Team from './Team';
+import UserStory from './UserStory';
 
 let SprintSchema: Schema = new Schema({
     number: {
@@ -6,8 +8,8 @@ let SprintSchema: Schema = new Schema({
         required: false,
     },
     teams:[{
-        type:Schema.ObjectId,
-        ref:'Team'
+        type: Schema.Types.ObjectId,
+        ref: 'Team'
     }],
     startdate: {
         type:Date,
@@ -18,9 +20,9 @@ let SprintSchema: Schema = new Schema({
         required: true
     },
     userstories: [{
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'UserStory'
     }]
-})
+});
 
 export default model('Sprint', SprintSchema);

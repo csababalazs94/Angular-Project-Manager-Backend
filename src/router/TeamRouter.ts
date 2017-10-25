@@ -31,9 +31,9 @@ export class TeamRouter {
     }
 
     public GetTeam(req: Request, res: Response): void{
-        const name: String = req.params.name;
+        const _id: String = req.params._id;
 
-        Team.findOne({name})
+        Team.findOne({_id})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -52,13 +52,9 @@ export class TeamRouter {
 
     public CreateTeam(req: Request, res: Response): void{
         const name: String = req.body.name;
-        const members: Array<User> = req.body.members;
-        const PO: User = req.body.PO;
-        const SM: User = req.body.SM;
-        const currentvelocity: Number = req.body.currentvelocity
 
         const post = new Team({
-            name,members, PO, SM,currentvelocity
+            name
         });
 
         post.save()
@@ -79,9 +75,9 @@ export class TeamRouter {
     }
 
     public UpdateTeam(req: Request, res: Response): void{
-        const name: String = req.params.name;
+        const _id: String = req.params._id;
         
-        Team.findOneAndUpdate({name}, req.body)
+        Team.findOneAndUpdate({_id}, req.body)
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -99,9 +95,9 @@ export class TeamRouter {
     }
 
     public DeleteTeam(req: Request, res: Response): void{
-        const name: String = req.params.name;
+        const _id: String = req.params._id;
         
-        Team.findOneAndRemove({name})
+        Team.findOneAndRemove({_id})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -119,11 +115,10 @@ export class TeamRouter {
     }
     routes(){
         this.router.get('/', this.GetTeams);
-        this.router.get('/', this.GetTeam);
+        this.router.get('/:_id', this.GetTeam);
         this.router.post('/', this.CreateTeam);
-        this.router.put('/', this.UpdateTeam);
-        this.router.delete('/', this.DeleteTeam);
-            
+        this.router.put('/:_id', this.UpdateTeam);
+        this.router.delete('/:_id', this.DeleteTeam);
     }
 }
 

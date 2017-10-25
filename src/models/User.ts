@@ -1,6 +1,6 @@
 import {Schema, model } from 'mongoose';
 
-enum Roles{Developer, Tester, PO, SM}
+enum Roles{Developer, Tester, PO, SM};
 
 let UserSchema: Schema = new Schema({
     createdAt: Date,

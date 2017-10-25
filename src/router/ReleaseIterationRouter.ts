@@ -51,12 +51,11 @@ export class ReleaseIterationRouter {
 
     public CreateReleaseIteration(req: Request, res: Response): void{
         const name: string = req.body.name;
-        const sprints: Sprint[] = req.body.sprints;
         const startdate = req.body.startdate;
         const enddate = req.body.enddate;
 
         const post = new ReleaseIteration({
-            name,sprints,startdate, enddate
+            name,startdate, enddate
         });
 
         post.save()
@@ -117,10 +116,10 @@ export class ReleaseIterationRouter {
     }
     routes(){
         this.router.get('/', this.GetReleaseIterations);
-        this.router.get('/:slug', this.GetReleaseIteration);
+        this.router.get('/_id', this.GetReleaseIteration);
         this.router.post('/', this.CreateReleaseIteration);
-        this.router.put('/:slug', this.UpdateReleaseIteration);
-        this.router.delete('/:slug', this.DeleteReleaseIteration);
+        this.router.put('/:_id', this.UpdateReleaseIteration);
+        this.router.delete('/:_id', this.DeleteReleaseIteration);
             
     }
 

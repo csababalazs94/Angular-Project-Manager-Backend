@@ -51,14 +51,10 @@ export class UserStoryRouter {
     }
 
     public CreateUserStory(req: Request, res: Response): void{
-        const owner: User = req.body.owner;
         const point: Number  = req.body.point;
-        const status: Status = req.body.status;
-        const insprint: Number = req.body.insprint;
-        const currentvelocity: Number = req.body.currentvelocity
 
         const post = new UserStory({
-           owner,point,status,insprint,currentvelocity
+           point
         });
 
         post.save()
@@ -119,10 +115,10 @@ export class UserStoryRouter {
     }
     routes(){
         this.router.get('/', this.GetUserStorys);
-        this.router.get('/', this.GetUserStory);
+        this.router.get('/:_id', this.GetUserStory);
         this.router.post('/', this.CreateUserStory);
-        this.router.put('/', this.UpdateUserStory);
-        this.router.delete('/', this.DeleteUserStory);
+        this.router.put('/:_id', this.UpdateUserStory);
+        this.router.delete('/:_id', this.DeleteUserStory);
             
     }
 }

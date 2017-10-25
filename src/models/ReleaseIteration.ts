@@ -1,4 +1,5 @@
 import {Schema, model } from 'mongoose';
+import Sprint from './Sprint';
 
 let ReleaseIterationSchema: Schema = new Schema({
     name: {
@@ -6,7 +7,7 @@ let ReleaseIterationSchema: Schema = new Schema({
         required: false
     },
     sprints: [{
-        type:Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Sprint'
     }],
     startdate:{
@@ -17,8 +18,7 @@ let ReleaseIterationSchema: Schema = new Schema({
         type: Date,
         required: true
     },
-
-
-})
+    
+});
 
 export default model('ReleaseIteration', ReleaseIterationSchema);

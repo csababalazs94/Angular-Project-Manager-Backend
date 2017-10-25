@@ -1,25 +1,27 @@
 import {Schema, model } from 'mongoose';
+import User from './User';
 
 let TeamSchema : Schema = new Schema ({
-    name: {
+    name:{
         type: String,
         required: true,
     },
     members: [{
-        type: Schema.ObjectId ,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    PO:{
-        type: Schema.ObjectId ,
+    po:{
+        type: Schema.Types.ObjectId ,
         ref: 'User'
+        
     },
-    SM:{
-        type: Schema.ObjectId ,
-        ref: 'User'
+    sm:{
+        type: Schema.Types.ObjectId ,
+        ref: 'User'        
     },
     currentVelocity:{ 
         type: Number
     }
-})
+});
 
 export default model('Team', TeamSchema);

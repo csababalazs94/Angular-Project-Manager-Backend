@@ -1,18 +1,23 @@
 import {Schema, model } from 'mongoose';
+import User from './User';
 
-export enum Status{Declared, InProgress, Blocked, Completed, Accepted}
+export enum Status{Declared, InProgress, Blocked, Completed, Accepted};
 
 let UserStoryScema: Schema = new Schema({
     owner: {
-        type: Schema.OjectId,
+        type: Schema.Types.ObjectId,
         ref:'User'
+    },
+    name: {
+        type: String,
+        required: true
     },
     point: {
         type:Number,
         required: false,
     },
     status: {
-        type: Status,
+        type: String,
         required: true
     },
     insprint: {
@@ -20,6 +25,6 @@ let UserStoryScema: Schema = new Schema({
         type:Number,
         required: false
     }
-})
+});
 
 export default model('UserStory', UserStoryScema);

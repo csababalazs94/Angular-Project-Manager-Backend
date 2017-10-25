@@ -31,9 +31,9 @@ export class SprintRouter {
     }
 
     public GetSprint(req: Request, res: Response): void{
-        const startdate: Date = req.params.startdate;
+        const _id: Date = req.params._id;
 
-        Sprint.findOne({startdate})
+        Sprint.findOne({_id})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -52,13 +52,11 @@ export class SprintRouter {
 
     public CreateSprint(req: Request, res: Response): void{
         const number: Number = req.body.number;
-        const teams: Array<Team> = req.body.sprints;
         const startdate: Date = req.body.startdate;
         const enddate: Date = req.body.enddate;
-        const userstories: UserStory[] = req.body.userstories
 
         const post = new Sprint({
-            number,teams,startdate,enddate,userstories
+            number,startdate,enddate
         });
 
         post.save()
@@ -79,9 +77,9 @@ export class SprintRouter {
     }
 
     public UpdateSprint(req: Request, res: Response): void{
-        const startdate: string = req.params.startdate;
+        const _id: string = req.params._id;
         
-        Sprint.findOneAndUpdate({startdate}, req.body)
+        Sprint.findOneAndUpdate({_id}, req.body)
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -99,9 +97,9 @@ export class SprintRouter {
     }
 
     public DeleteSprint(req: Request, res: Response): void{
-        const startdate: string = req.params.startdate;
+        const _id: string = req.params._id;
         
-        Sprint.findOneAndRemove({startdate})
+        Sprint.findOneAndRemove({_id})
         .then((data) => {
             const status = res.statusCode;
             res.status(200).json({
@@ -119,10 +117,10 @@ export class SprintRouter {
     }
     routes(){
         this.router.get('/', this.GetSprints);
-        this.router.get('/:slug', this.GetSprint);
+        this.router.get('/:_id', this.GetSprint);
         this.router.post('/', this.CreateSprint);
-        this.router.put('/:slug', this.UpdateSprint);
-        this.router.delete('/:slug', this.DeleteSprint);
+        this.router.put('/:_id', this.UpdateSprint);
+        this.router.delete('/:_id', this.DeleteSprint);
             
     }
 
